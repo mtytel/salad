@@ -1,9 +1,0 @@
-/* helping out the slider CSS */
-
-.slider-volume {
-  min-height: 16px !important;
-}
-
-.slider-volume > .dragger {
-  top: 30% !important;
-}
