@@ -132,13 +132,11 @@ var chladni = function() {
          var x = parseFloat($(this).val());
          if (!isNaN(x)) {
            f(x);
-           init_canvas();
          }
        };
      }
      $('#sin-amp').on('change', get_check_set_redraw(setSinAmp));
      $('#freq-k').on('change', get_check_set_redraw(setSinDen));
-     $('#speed-k').on('change', get_check_set_redraw(setSpeed));
      $('#damping-k').on('change', get_check_set_redraw(setDamping));
      init_canvas();
   }
