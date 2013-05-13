@@ -12,6 +12,23 @@ var chladni = function() {
   var DAMPING = 1.0;
   // Speed constant somehow defines speed of waves. Not sure on relationship.
   var SPEED_CONSTANT = 1.0;
+  // Amplitude on the sine wave input equation
+  var SIN_AMP = 5.0;
+  // Influences frequency on sine wave input equation
+  var SIN_DEN = 8.0;
+
+  function setDamping(x) {
+    DAMPING = x;
+  }
+  function setSpeed(x) {
+    SPEED_CONSTANT = x;
+  }
+  function setSinAmp(x) {
+    SIN_AMP = x;
+  }
+  function setSinDen(x) {
+    SIN_DEN = x;
+  }
 
   // Store the width and height so we don't have to access the DOM later.
   var canvas_width = 0, canvas_height = 0;
@@ -37,7 +54,7 @@ var chladni = function() {
 
   function tick() {
     // Update the input equation.
-    var val = 5.0 * Math.sin(time / 8.0);
+    var val = SIN_AMP * Math.sin(time / SIN_DEN);
     for (var i = 0; i < canvas_width; i++) {
       pos_matrix[0][i] = val;
       pos_matrix[canvas_height - 1][i] = val;
@@ -87,11 +104,15 @@ var chladni = function() {
     window.requestAnimationFrame(draw);
   }
 
-  function init() {
+  function init_canvas() {
     var canvas = document.getElementById('chladni');
     context = canvas.getContext('2d');
     canvas_width = canvas.width;
     canvas_height = canvas.height;
+
+    // reset the canvas
+    context.fillStyle = 'rgb(0,0,0)';
+    context.fillRect(0, 0, canvas_width, canvas_height);
     image = context.createImageData(canvas_width, canvas_height);
     pos_matrix = createTwoDimArray(canvas_width, canvas_height);
     vel_matrix = createTwoDimArray(canvas_width, canvas_height);
@@ -102,11 +123,32 @@ var chladni = function() {
     draw();
   }
 
+  function init_page() {
+     $('#reset').on('click', function() {
+       init_canvas();
+     });
+     function get_check_set_redraw(f) {
+       return function() {
+         var x = parseFloat($(this).val());
+         if (!isNaN(x)) {
+           f(x);
+           init_canvas();
+         }
+       };
+     }
+     $('#sin-amp').on('change', get_check_set_redraw(setSinAmp));
+     $('#freq-k').on('change', get_check_set_redraw(setSinDen));
+     $('#speed-k').on('change', get_check_set_redraw(setSpeed));
+     $('#damping-k').on('change', get_check_set_redraw(setDamping));
+     init_canvas();
+  }
+
   return {
-    init: init,
+    init_canvas: init_canvas,
+    init_page: init_page,
     draw: draw,
     tick: tick,
   };
 }();
 
-window.onload = chladni.init;
+window.onload = chladni.init_page;
