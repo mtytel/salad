@@ -17,20 +17,29 @@ button {
 
 .column {
   display: inline-block;
-  margin-left: 20px;
+  margin: 0 20px;
   float: left;
 }
 
-.controls {
-  padding-left: 20px;
+.controls.column {
+  padding: 10px;
+  background-color: rgb(25, 25, 25);
+  border-color: rgb(60, 60, 60);
+  border-style: solid;
+  border-width: 1px 0;
 }
 
 .slider-container {
   width: 100px;
   display: inline-block;
   float: left;
-  padding-top: 20px;
+  padding-top: 10px;
+  margin-top: 10px;
   text-align: center;
+  border-right: 1px solid rgb(50, 50, 50);
+}
+.slider-container:last-child {
+  border-right: none;
 }
 
 .simple-button {
