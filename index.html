@@ -10,6 +10,7 @@
 
     <link rel="stylesheet" type="text/css" href="css/jquery-ui-1.10.3.custom.min.css" />
     <link rel="stylesheet" type="text/css" href="css/sliders.css" />
+    <link rel="stylesheet" type="text/css" href="css/chladni.css" />
   </head>
   <body>
     <canvas id="chladni" width="500px" height="500px"></canvas>
@@ -18,10 +19,26 @@
         <button id="reset">Reset</button>
       </div>
       <div>
-        <label>Wave Frequency:</label>
-        <div id="frequency" class="colorful-slider gray">
-          <div class="slider-handle"></div>
+        <div class="slider-container">
+          <label>Amplitude</label>
+          <div id="amplitude" class="colorful-slider gray">
+            <div class="slider-handle"></div>
+          </div>
         </div>
+        <div class="slider-container">
+          <label>Frequency</label>
+          <div id="frequency" class="colorful-slider gray">
+            <div class="slider-handle"></div>
+          </div>
+        </div>
+        <!-- What range of damping is OK for the simulation?
+        <div class="slider-container">
+          <label>Damping</label>
+          <div id="damping" class="colorful-slider gray">
+            <div class="slider-handle"></div>
+          </div>
+        </div>
+        -->
       </div>
     </div>
   </body>

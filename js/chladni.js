@@ -122,15 +122,22 @@ var chladni = function() {
     $('#reset').on('click', function() {
     init_canvas();
     });
-    //$('#amplitude').on('change', get_check_set_redraw(setAmplitude));
-    //$('#frequency').on('change', get_check_set_redraw(setFrequency));
-    //$('#damping').on('change', get_check_set_redraw(setDamping));
+
+    $('#amplitude')
+      .slider({min: 0, max: 10, start: amplitude_})
+      .on('change', function(ev, val) {
+        setAmplitude(val);
+      });
     $('#frequency')
-      .slider({min: .01, max: .5, start: .125})
+      .slider({min: .01, max: .5, start: frequency_})
       .on('change', function(ev, val) {
         setFrequency(val);
       });
-
+    $('#damping')
+      .slider({min: .01, max: 1.9, start: damping_})
+      .on('change', function(ev, val) {
+        setDamping(val);
+      });
     init_canvas();
   }
 
