@@ -1,5 +1,48 @@
+@font-face {
+  font-family: 'myriad-pro-light';
+  src: url(../fnt/MyriadPro-Light.otf);
+}
+
+body,
+button {
+  background-color: #111;
+  color: #aaa;
+  font-family: 'myriad-pro-light', helvetica, sans;
+  font-size: 100%;
+}
+
+.container {
+  margin-top: 20px;
+}
+
+.column {
+  display: inline-block;
+  margin-left: 20px;
+  float: left;
+}
+
+.controls {
+  padding-left: 20px;
+}
+
 .slider-container {
   width: 100px;
   display: inline-block;
   float: left;
+  padding-top: 20px;
+  text-align: center;
+}
+
+.simple-button {
+  padding: 5px 0;
+  background-color: rgb(150, 50, 50);
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  border-width: 0;
+  margin: 0;
+  color: #ddd;
+  width: 100%;
+  display: block;
+  font-size: 100%;
 }

@@ -13,20 +13,26 @@
     <link rel="stylesheet" type="text/css" href="css/chladni.css" />
   </head>
   <body>
-    <canvas id="chladni" width="500px" height="500px"></canvas>
-    <div class="controls">
+    <div class="container">
+      <div class="column">
+        <canvas id="chladni" width="500px" height="500px"></canvas>
+      </div>
+    </div>
+    <div class="controls column">
       <div>
-        <button id="reset">Reset</button>
+        <button id="reset" class="simple-button">
+          Reset
+        </button>
       </div>
       <div>
         <div class="slider-container">
-          <label>Amplitude</label>
+          Amplitude
           <div id="amplitude" class="colorful-slider gray">
             <div class="slider-handle"></div>
           </div>
         </div>
         <div class="slider-container">
-          <label>Frequency</label>
+          Frequency
           <div id="frequency" class="colorful-slider gray">
             <div class="slider-handle"></div>
           </div>
@@ -40,6 +46,7 @@
         </div>
         -->
       </div>
+    </div>
     </div>
   </body>
 </html>

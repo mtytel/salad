@@ -11,8 +11,7 @@
   height: 200px;
   border: 1px solid #242424;
   position: relative;
-  float: left;
-  margin: 20px 20px 0;
+  margin: 20px auto;
   -moz-border-radius: 12px;
   -webkit-border-radius: 12px;
   border-radius: 12px;
