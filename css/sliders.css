@@ -1,0 +1,49 @@
+/**
+ * thank you, Martin Angelov
+ * http://tutorialzine.com/2010/03/colorful-sliders-jquery-css3/
+ * http://demo.tutorialzine.com/2010/03/colorful-sliders-jquery-css3/demo.html
+ *
+ * adapted for different colors and to not use background images
+ */
+
+.colorful-slider {
+  width: 6px;
+  height: 200px;
+  border: 1px solid #242424;
+  position: relative;
+  float: left;
+  margin: 20px 20px 0;
+  -moz-border-radius: 12px;
+  -webkit-border-radius: 12px;
+  border-radius: 12px;
+  background-image: -webkit-gradient(linear, left top, right top, color-stop(0, rgba(255, 255, 255, .2)), color-stop(1, rgba(0, 0, 0, .2)));
+  background-image: -webkit-linear-gradient(left, rgba(255, 255, 255, .2) 0%, rgba(0, 0, 0, .2) 100%);
+  background-image: -ms-linear-gradient(left, rgba(255, 255, 255, .2) 0%, rgba(0, 0, 0, .2) 100%);
+  background-image: -moz-linear-gradient(left, rgba(255, 255, 255, .2) 0%, rgba(0, 0, 0, .2) 100%);
+  background-image: -o-linear-gradient(left, rgba(255, 255, 255, .2) 0%, rgba(0, 0, 0, .2) 100%);
+  background-image: linear-gradient(to right, rgba(255, 255, 255, .2) 0%, rgba(0, 0, 0, .2) 100%);
+}
+
+.colorful-slider.gray {
+  background-color: rgb(125, 125, 125);
+  border-width: 0;
+  padding: 1px;
+}
+
+.slider-handle {
+  position: absolute;
+  left: -11px;
+  width: 28px;
+  padding: 1px;
+  height: 12px;
+  background: rgb(200, 200, 200);
+  cursor: n-resize;
+  top: 44%;
+  background-image: -webkit-gradient(linear, left top, right bottom, color-stop(0, rgba(255, 255, 255, .2)), color-stop(1, rgba(0, 0, 0, .2)));
+  background-image: -webkit-linear-gradient(top left, rgba(255, 255, 255, .2) 0%, rgba(0, 0, 0, .2) 100%);
+  background-image: -ms-linear-gradient(top left, rgba(255, 255, 255, .2) 0%, rgba(0, 0, 0, .2) 100%);
+  background-image: -moz-linear-gradient(top left, rgba(255, 255, 255, .2) 0%, rgba(0, 0, 0, .2) 100%);
+  background-image: -o-linear-gradient(top left, rgba(255, 255, 255, .2) 0%, rgba(0, 0, 0, .2) 100%);
+  background-image: linear-gradient(to bottom right, rgba(255, 255, 255, .2) 0%, rgba(0, 0, 0, .2) 100%);
+}
+
