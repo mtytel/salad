@@ -40,7 +40,7 @@
           return;
         }
         var $this = $(this);
-        var ratio = val / (options.max - options.min);
+        var ratio = (val - options.min) / (options.max - options.min);
         var $handle = $this.find('.slider-handle').first();
         $handle.css({top: (1 - ratio) * $this.height() - $handle.height()});
         $this.trigger('change', val);

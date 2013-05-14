@@ -134,7 +134,7 @@ var chladni = function() {
         setFrequency(val);
       });
     $('#damping')
-      .slider({min: .01, max: 1.9, start: damping_})
+      .slider({min: .01, max: 1, start: damping_})
       .on('change', function(ev, val) {
         setDamping(val);
       });
