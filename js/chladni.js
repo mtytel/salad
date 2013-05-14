@@ -10,13 +10,15 @@
 var chladni = function() {
   // Speed constant somehow defines speed of waves. Not sure on relationship.
   var SPEED_CONSTANT = 1.0;
+  // The polynomial scale of the damping slide.
+  var DAMPING_SCALE = 6;
+
   // Damping consistently puts friction on all waving points.
   var damping_ = 1.0;
   // Amplitude on the sine wave input equation
   var amplitude_ = 5.0;
   // Influences frequency on sine wave input equation
   var frequency_ = 1.0 / 8.0;
-
   // Store the width and height so we don't have to access the DOM later.
   var canvas_width_ = 0, canvas_height_ = 0;
   var context_ = null;
@@ -134,9 +136,9 @@ var chladni = function() {
         setFrequency(val);
       });
     $('#damping')
-      .slider({min: 0, max: 1, start: damping_})
+      .slider({min: 0, max: 1, start: Math.pow(1 - damping_, 1 / DAMPING_SCALE)})
       .on('change', function(ev, val) {
-        setDamping(val);
+        setDamping(1 - Math.pow(val, DAMPING_SCALE));
       });
     init_canvas();
   }
