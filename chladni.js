@@ -8,36 +8,33 @@
  */
 
 var chladni = function() {
-  // Damping consistently puts friction on all waving points.
-  var DAMPING = 1.0;
   // Speed constant somehow defines speed of waves. Not sure on relationship.
   var SPEED_CONSTANT = 1.0;
+  // Damping consistently puts friction on all waving points.
+  var damping_ = 1.0;
   // Amplitude on the sine wave input equation
-  var SIN_AMP = 5.0;
+  var amplitude_ = 5.0;
   // Influences frequency on sine wave input equation
-  var SIN_DEN = 8.0;
-
-  function setDamping(x) {
-    DAMPING = x;
-  }
-  function setSpeed(x) {
-    SPEED_CONSTANT = x;
-  }
-  function setSinAmp(x) {
-    SIN_AMP = x;
-  }
-  function setSinDen(x) {
-    SIN_DEN = x;
-  }
+  var frequency_ = 1.0 / 8.0;
 
   // Store the width and height so we don't have to access the DOM later.
-  var canvas_width = 0, canvas_height = 0;
-  var context = null;
-  var image = null;
-  var pos_matrix = null;
-  var vel_matrix = null;
-  var temp_matrix = null;
-  var time = 0;
+  var canvas_width_ = 0, canvas_height_ = 0;
+  var context_ = null;
+  var image_ = null;
+  var pos_matrix_ = null;
+  var vel_matrix_ = null;
+  var temp_matrix_ = null;
+  var time_ = 0;
+
+  function setDamping(damping) {
+    damping_ = damping;
+  }
+  function setAmplitude(amplitude) {
+    amplitude_ = amplitude;
+  }
+  function setFrequency(frequency) {
+    frequency_ = frequency;
+  }
 
   // Index by row first, then column.
   function createTwoDimArray(width, height) {
@@ -54,70 +51,68 @@ var chladni = function() {
 
   function tick() {
     // Update the input equation.
-    var val = SIN_AMP * Math.sin(time / SIN_DEN);
-    for (var i = 0; i < canvas_width; i++) {
-      pos_matrix[0][i] = val;
-      pos_matrix[canvas_height - 1][i] = val;
+    var val = amplitude_ * Math.sin(time_ * frequency_);
+    for (var i = 0; i < canvas_width_; i++) {
+      pos_matrix_[0][i] = val;
+      pos_matrix_[canvas_height_ - 1][i] = val;
     }
-    for (var i = 0; i < canvas_height; i++) {
-      pos_matrix[i][0] = val;
-      pos_matrix[i][canvas_width - 1] = val;
+    for (var i = 0; i < canvas_height_; i++) {
+      pos_matrix_[i][0] = val;
+      pos_matrix_[i][canvas_width_ - 1] = val;
     }
-    time++;
+    time_++;
 
     // Wave equation! Give an acceleration based on neighboring points.
-    for (var r = 1; r < canvas_height - 1; r++) {
-      for (var c = 1; c < canvas_width - 1; c++) {
-        var neighbor_sum = pos_matrix[r - 1][c] + pos_matrix[r + 1][c] +
-                           pos_matrix[r][c - 1] + pos_matrix[r][c + 1];
-        var difference = pos_matrix[r][c] - neighbor_sum / 4.0;
-        temp_matrix[r][c] = vel_matrix[r][c] - SPEED_CONSTANT * difference;
+    for (var r = 1; r < canvas_height_ - 1; r++) {
+      for (var c = 1; c < canvas_width_ - 1; c++) {
+        var neighbor_sum = pos_matrix_[r - 1][c] + pos_matrix_[r + 1][c] +
+                           pos_matrix_[r][c - 1] + pos_matrix_[r][c + 1];
+        var difference = pos_matrix_[r][c] - neighbor_sum / 4.0;
+        temp_matrix_[r][c] = vel_matrix_[r][c] - SPEED_CONSTANT * difference;
       }
     }
 
     // Swap the velocity matrices.
-    var temp = vel_matrix;
-    vel_matrix = temp_matrix;
-    temp_matrix = vel_matrix;
+    var temp = vel_matrix_;
+    vel_matrix_ = temp_matrix_;
+    temp_matrix_ = vel_matrix_;
 
-    for (var r = 1; r < canvas_height - 1; r++) {
-      for (var c = 1; c < canvas_width - 1; c++) {
+    for (var r = 1; r < canvas_height_ - 1; r++) {
+      for (var c = 1; c < canvas_width_ - 1; c++) {
         // Damp the velocity for each point.
-        vel_matrix[r][c] *= DAMPING;
+        vel_matrix_[r][c] *= damping_;
 
         // Update the position for each point.
-        pos_matrix[r][c] += vel_matrix[r][c];
+        pos_matrix_[r][c] += vel_matrix_[r][c];
 
-        // Update the image so it's ready to draw if we need.
-        var bright = Math.floor(pos_matrix[r][c] * 20);
-        var index = 4 * (r * canvas_width + c);
-        image.data[index] = bright;
-        image.data[index + 1] = bright;
-        image.data[index + 2] = bright;
-        image.data[index + 3] = 255;
+        // Update the image_ so it's ready to draw if we need.
+        var bright = Math.floor(pos_matrix_[r][c] * 20);
+        var index = 4 * (r * canvas_width_ + c);
+        image_.data[index] = bright;
+        image_.data[index + 1] = bright;
+        image_.data[index + 2] = bright;
+        image_.data[index + 3] = 255;
       }
     }
   }
 
   function draw() {
-    context.putImageData(image, 0, 0);
+    context_.putImageData(image_, 0, 0);
     window.requestAnimationFrame(draw);
   }
 
   function init_canvas() {
     var canvas = document.getElementById('chladni');
-    context = canvas.getContext('2d');
-    canvas_width = canvas.width;
-    canvas_height = canvas.height;
+    context_ = canvas.getContext('2d');
+    canvas_width_ = canvas.width;
+    canvas_height_ = canvas.height;
 
     // reset the canvas
-    context.fillStyle = 'rgb(0,0,0)';
-    context.fillRect(0, 0, canvas_width, canvas_height);
-    image = context.createImageData(canvas_width, canvas_height);
-    pos_matrix = createTwoDimArray(canvas_width, canvas_height);
-    vel_matrix = createTwoDimArray(canvas_width, canvas_height);
-    temp_matrix = createTwoDimArray(canvas_width, canvas_height);
-    time = 0;
+    image_ = context_.createImageData(canvas_width_, canvas_height_);
+    pos_matrix_ = createTwoDimArray(canvas_width_, canvas_height_);
+    vel_matrix_ = createTwoDimArray(canvas_width_, canvas_height_);
+    temp_matrix_ = createTwoDimArray(canvas_width_, canvas_height_);
+    time_ = 0;
 
     setInterval(tick, 20);
     draw();
@@ -132,14 +127,12 @@ var chladni = function() {
          var x = parseFloat($(this).val());
          if (!isNaN(x)) {
            f(x);
-           init_canvas();
          }
        };
      }
-     $('#sin-amp').on('change', get_check_set_redraw(setSinAmp));
-     $('#freq-k').on('change', get_check_set_redraw(setSinDen));
-     $('#speed-k').on('change', get_check_set_redraw(setSpeed));
-     $('#damping-k').on('change', get_check_set_redraw(setDamping));
+     $('#amplitude').on('change', get_check_set_redraw(setAmplitude));
+     $('#frequency').on('change', get_check_set_redraw(setFrequency));
+     $('#damping').on('change', get_check_set_redraw(setDamping));
      init_canvas();
   }
 
