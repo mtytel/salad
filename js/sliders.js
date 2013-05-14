@@ -3,8 +3,9 @@
  * http://tutorialzine.com/2010/03/colorful-sliders-jquery-css3/
  * http://demo.tutorialzine.com/2010/03/colorful-sliders-jquery-css3/demo.html
  *
- * adapted only the tiniest bit to define a function which is later called when
- * the page loads with the rest of our app's initialization
+ * Adapted only a little by adding options and making it a JQuery function.
+ *   $my_slider = $(selector).slider(options)
+ *   $my_slider.setPosition(val);
  */
 
 (function($, window) {
