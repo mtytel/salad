@@ -3,8 +3,13 @@
     <title>
       Chladni
     </title>
-    <script src="jquery.min.js"></script>
-    <script src="chladni.js"></script>
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <script src="js/jquery-ui-1.10.3.custom.min.js"></script>
+    <script src="js/sliders.js"></script>
+    <script src="js/chladni.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/jquery-ui-1.10.3.custom.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/sliders.css" />
   </head>
   <body>
     <canvas id="chladni" width="500px" height="500px"></canvas>
@@ -13,14 +18,10 @@
         <button id="reset">Reset</button>
       </div>
       <div>
-        <label for="amplitude">Wave Amplitude:</label>
-        <input id="amplitude" type="number">
-        <label for="frequency">Wave Frequency:</label>
-        <input id="frequency" type="number">
-      </div>
-      <div>
-        <label for="damping">Damping Constant:</label>
-        <input id="damping" type="number">
+        <label>Wave Frequency:</label>
+        <div id="frequency" class="colorful-slider gray">
+          <div class="slider-handle"></div>
+        </div>
       </div>
     </div>
   </body>
