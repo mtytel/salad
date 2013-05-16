@@ -51,7 +51,35 @@ button {
   border-width: 0;
   margin: 0;
   color: #ddd;
-  width: 100%;
   display: block;
   font-size: 100%;
+  height: 27px;
+}
+
+.simple-button:hover {
+  background-color: rgb(160, 60, 60);
+}
+
+.simple-button:active {
+  background-color: rgb(140, 40, 40);
+}
+
+.normal {
+  width: 100%;
+}
+
+.toggle {
+  width: 49%;
+  margin-right:2%;
+  display:inline;
+  float:left;
+}
+
+.toggle.pressed {
+  background-color: rgb(80, 30, 30);
+  color: #aaa;
+}
+
+.toggle:last-child {
+  margin-right:0;
 }

@@ -18,9 +18,10 @@ var chladni = function() {
   // Amplitude on the sine wave input equation
   var amplitude_ = 5.0;
   // Influences frequency on sine wave input equation
-  var frequency_ = 1.0 / 8.0;
+  var frequency_ = 1.0 / 15.0;
   // Store the width and height so we don't have to access the DOM later.
   var canvas_width_ = 0, canvas_height_ = 0;
+  var chladni_coloring_ = true;
   var context_ = null;
   var image_ = null;
   var pos_matrix_ = null;
@@ -88,11 +89,17 @@ var chladni = function() {
         pos_matrix_[r][c] += vel_matrix_[r][c];
 
         // Update the image_ so it's ready to draw if we need.
-        var bright = Math.floor(pos_matrix_[r][c] * 20);
+        var brightness = 0;
+        if (chladni_coloring_) {
+          var scaled_velocity = vel_matrix_[r][c] / frequency_;
+          brightness = 255 - (pos_matrix_[r][c] * pos_matrix_[r][c] + scaled_velocity * scaled_velocity);
+        }
+        else
+          brightness = Math.floor(pos_matrix_[r][c] * 20);
         var index = 4 * (r * canvas_width_ + c);
-        image_.data[index] = bright;
-        image_.data[index + 1] = bright;
-        image_.data[index + 2] = bright;
+        image_.data[index] = brightness;
+        image_.data[index + 1] = brightness;
+        image_.data[index + 2] = brightness;
         image_.data[index + 3] = 255;
       }
     }
@@ -103,7 +110,7 @@ var chladni = function() {
     window.requestAnimationFrame(draw);
   }
 
-  function init_canvas() {
+  function initCanvas() {
     var canvas = document.getElementById('chladni');
     context_ = canvas.getContext('2d');
     canvas_width_ = canvas.width;
@@ -120,10 +127,22 @@ var chladni = function() {
     draw();
   }
 
-  function init_page() {
-    $('#reset').on('click', function() {
-    init_canvas();
+  function initPage() {
+    $('#reset').on('click', initCanvas);
+    $('#position').on('click', function() {
+      chladni_coloring_ = false;
+      $('#position').addClass('pressed');
+      $('#stillness').removeClass('pressed');
     });
+    $('#stillness').on('click', function() {
+      chladni_coloring_ = true;
+      $('#stillness').addClass('pressed');
+      $('#position').removeClass('pressed');
+    });
+    if (chladni_coloring_)
+      $('#stillness').addClass('pressed');
+    else
+      $('#position').addClass('pressed');
 
     $('#amplitude')
       .slider({min: 0, max: 10, start: amplitude_})
@@ -140,15 +159,15 @@ var chladni = function() {
       .on('change', function(ev, val) {
         setDamping(1 - Math.pow(val, DAMPING_SCALE));
       });
-    init_canvas();
+    initCanvas();
   }
 
   return {
-    init_canvas: init_canvas,
-    init_page: init_page,
+    initCanvas: initCanvas,
+    initPage: initPage,
     draw: draw,
     tick: tick,
   };
 }();
 
-window.onload = chladni.init_page;
+window.onload = chladni.initPage;
