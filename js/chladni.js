@@ -17,8 +17,11 @@ var chladni = function() {
   var damping_ = 1.0;
   // Amplitude on the sine wave input equation
   var amplitude_ = 5.0;
-  // Influences frequency on sine wave input equation
-  var frequency_ = 1.0 / 15.0;
+  // Frequency on the sine wave equation, in 1/ticks
+  var frequency_ = 1 / 100;
+  // Phase is where in the sine wave we sample from. Incrementing phase is how
+  // we move forward in time.
+  var phase_ = 0;
   // Store the width and height so we don't have to access the DOM later.
   var canvas_width_ = 0, canvas_height_ = 0;
   var chladni_coloring_ = true;
@@ -27,7 +30,6 @@ var chladni = function() {
   var pos_matrix_ = null;
   var vel_matrix_ = null;
   var temp_matrix_ = null;
-  var time_ = 0;
 
   function setDamping(damping) {
     damping_ = damping;
@@ -54,7 +56,7 @@ var chladni = function() {
 
   function tick() {
     // Update the input equation.
-    var val = amplitude_ * Math.sin(time_ * frequency_);
+    var val = amplitude_ * Math.sin(phase_);
     for (var i = 0; i < canvas_width_; i++) {
       pos_matrix_[0][i] = val;
       pos_matrix_[canvas_height_ - 1][i] = val;
@@ -63,7 +65,9 @@ var chladni = function() {
       pos_matrix_[i][0] = val;
       pos_matrix_[i][canvas_width_ - 1] = val;
     }
-    time_++;
+
+    phase_ += 2 * Math.PI * frequency_;
+    phase_ %= 2 * Math.PI;
 
     // Wave equation! Give an acceleration based on neighboring points.
     for (var r = 1; r < canvas_height_ - 1; r++) {
@@ -91,7 +95,7 @@ var chladni = function() {
         // Update the image_ so it's ready to draw if we need.
         var brightness = 0;
         if (chladni_coloring_) {
-          var scaled_velocity = vel_matrix_[r][c] / frequency_;
+          var scaled_velocity = vel_matrix_[r][c] / (2 * Math.PI * Math.max(frequency_, .0001));
           brightness = 255 - (pos_matrix_[r][c] * pos_matrix_[r][c] + scaled_velocity * scaled_velocity);
         }
         else
@@ -127,7 +131,7 @@ var chladni = function() {
     pos_matrix_ = createTwoDimArray(canvas_width_, canvas_height_);
     vel_matrix_ = createTwoDimArray(canvas_width_, canvas_height_);
     temp_matrix_ = createTwoDimArray(canvas_width_, canvas_height_);
-    time_ = 0;
+    phase_ = 0;
 
     tick_interval_id = setInterval(tick, 20);
     draw();
@@ -156,7 +160,7 @@ var chladni = function() {
         setAmplitude(val);
       });
     $('#frequency')
-      .slider({min: .01, max: .5, start: frequency_})
+      .slider({min: 0, max: .5, start: frequency_})
       .on('change', function(ev, val) {
         setFrequency(val);
       });
