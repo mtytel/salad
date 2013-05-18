@@ -110,7 +110,13 @@ var chladni = function() {
     window.requestAnimationFrame(draw);
   }
 
+  var tick_interval_id = null;
+
   function initCanvas() {
+    if (tick_interval_id) {
+      clearInterval(tick_interval_id);
+    }
+
     var canvas = document.getElementById('chladni');
     context_ = canvas.getContext('2d');
     canvas_width_ = canvas.width;
@@ -123,7 +129,7 @@ var chladni = function() {
     temp_matrix_ = createTwoDimArray(canvas_width_, canvas_height_);
     time_ = 0;
 
-    setInterval(tick, 20);
+    tick_interval_id = setInterval(tick, 20);
     draw();
   }
 
