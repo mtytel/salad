@@ -10,6 +10,8 @@
 var chladni = function() {
   // Speed constant somehow defines speed of waves. Not sure on relationship.
   var SPEED_CONSTANT = 1.0;
+  // The polynomial scale of the frequency slide.
+  var FREQUENCY_SCALE = 3;
   // The polynomial scale of the damping slide.
   var DAMPING_SCALE = 6;
 
@@ -18,13 +20,13 @@ var chladni = function() {
   // Amplitude on the sine wave input equation
   var amplitude_ = 5.0;
   // Frequency on the sine wave equation, in 1/ticks
-  var frequency_ = 1 / 100;
+  var frequency_ = 1 / 300;
   // Phase is where in the sine wave we sample from. Incrementing phase is how
   // we move forward in time.
   var phase_ = 0;
   // Store the width and height so we don't have to access the DOM later.
   var canvas_width_ = 0, canvas_height_ = 0;
-  var chladni_coloring_ = true;
+  var chladni_coloring_ = false;
   var context_ = null;
   var image_ = null;
   var pos_matrix_ = null;
@@ -160,9 +162,9 @@ var chladni = function() {
         setAmplitude(val);
       });
     $('#frequency')
-      .slider({min: 0, max: .5, start: frequency_})
+      .slider({min: .1, max: 0.5, start: Math.pow(frequency_, 1 / FREQUENCY_SCALE)})
       .on('change', function(ev, val) {
-        setFrequency(val);
+        setFrequency(Math.pow(val, FREQUENCY_SCALE));
       });
     $('#damping')
       .slider({min: 0, max: 1, start: Math.pow(1 - damping_, 1 / DAMPING_SCALE)})
